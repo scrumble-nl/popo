@@ -1,0 +1,13 @@
+includes:
+    - ./vendor/nunomaduro/larastan/extension.neon
+
+parameters:
+
+    checkModelProperties: true
+
+    paths:
+        - src
+
+    level: 8
+
+    checkMissingIterableValueType: false

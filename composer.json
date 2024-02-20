@@ -1,0 +1,68 @@
+{
+  "name": "scrumble-nl/popo",
+  "type": "library",
+  "homepage": "https://gitlab.com/Scrumble/Packages/popo",
+  "description": "Plain old PHP object",
+  "keywords": [
+    "popo",
+    "php",
+    "laravel",
+    "dto"
+  ],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Rico Clark",
+      "email": "rico@scrumble.nl"
+    },
+    {
+      "name": "Luuk de Weijer",
+      "email": "luuk@scrumble.nl"
+    },
+    {
+      "name": "Stefan Mermans",
+      "email": "stefan@scrumble.nl"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Scrumble\\Popo\\": "src/"
+    },
+    "classmap": [
+      "src"
+    ]
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\": "tests/"
+    }
+  },
+  "require": {
+    "php": ">=8.1",
+    "laravel/framework": "^10.0",
+    "laravel/helpers": "v1.6"
+  },
+  "require-dev": {
+    "friendsofphp/php-cs-fixer": "^3.8",
+    "nunomaduro/collision": "^6.2",
+    "nunomaduro/larastan": "^2.1",
+    "orchestra/testbench": "^8.0",
+    "phpunit/phpunit": "^10.0"
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Scrumble\\Popo\\PopoServiceProvider"
+      ]
+    }
+  },
+  "config": {
+    "optimize-autoloader": true,
+    "preferred-install": "dist",
+    "sort-packages": true
+  },
+  "replace": {
+  },
+  "scripts": {
+  }
+}

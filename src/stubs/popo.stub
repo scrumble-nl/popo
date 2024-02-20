@@ -1,0 +1,11 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Popo;
+
+use Scrumble\Popo\BasePopo;
+
+class {{class}} extends BasePopo
+{
+}
