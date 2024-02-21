@@ -1,7 +1,7 @@
 {
   "name": "scrumble-nl/popo",
   "type": "library",
-  "homepage": "https://gitlab.com/Scrumble/Packages/popo",
+  "homepage": "https://github.com/scrumble-nl/popo",
   "description": "Plain old PHP object",
   "keywords": [
     "popo",
