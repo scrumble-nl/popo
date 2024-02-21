@@ -5,6 +5,12 @@ these objects is to replace all variables that would otherwise be key-value arra
 This package only contains a single class (BasePopo) which is intended to be extended by every Popo we create. The 
 BasePopo class ensures that you can return Popo's from your back-end to your front-end, and that they will automatically be converted to JSON without you having to write code for this. Besides that, the BasePopo provides all Popo's with the `toArray()` function.
 
+## Installation
+
+```sh
+composer require scrumble-nl/popo
+```
+
 ## Usage
 When creating a new Popo object simply extend BasePopo. Only public attributes will be included when converting to an array or
 when returning the Popo to your front-end, it is therefore required you mark visible attributes as public.
