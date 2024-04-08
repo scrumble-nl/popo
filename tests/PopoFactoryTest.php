@@ -167,6 +167,7 @@ class PopoFactoryTest extends TestCase
         $this->assertEquals($content2, $popos[1]['content']);
     }
 
+    /** @test */
     public function can_override_sequence_with_attributes(): void
     {
         $sequenceName = $this->faker->name;
