@@ -185,7 +185,6 @@ class PopoFactoryTest extends TestCase
         $this->assertEquals($attributeName, $popos->toArray()[0]['name']);
     }
 
-
     /** @test */
     public function can_create_with_child_factory(): void
     {
