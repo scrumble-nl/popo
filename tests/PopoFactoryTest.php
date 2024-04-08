@@ -168,6 +168,24 @@ class PopoFactoryTest extends TestCase
     }
 
     /** @test */
+    public function can_override_sequence_with_attributes(): void
+    {
+        $sequenceName = $this->faker->name;
+        $attributeName = $this->faker->name;
+
+        $popos = ExamplePopo::factory()->count(2)->sequence([
+            'name' => $sequenceName,
+        ], [
+            'name' => $sequenceName,
+        ])->create(['name' => $attributeName]);
+
+        $this->assertCount(2, $popos);
+        $this->assertInstanceOf(Collection::class, $popos);
+        $this->assertEquals($attributeName, $popos->toArray()[0]['name']);
+        $this->assertEquals($attributeName, $popos->toArray()[0]['name']);
+    }
+
+    /** @test */
     public function can_create_with_child_factory(): void
     {
         $popo = ExampleParentPopo::factory()->create();
