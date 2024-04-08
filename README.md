@@ -183,6 +183,8 @@ ProductPopo::factory()
     ->create();
 ```
 
+> Note that passing attributes to the `create()` method will override values passed in `sequence()`.
+
 ### Raw data
 
 The `raw(array $attributes = [])` function returns an array with the attributes that will be used to create an array with the values from the factory.

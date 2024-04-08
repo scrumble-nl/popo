@@ -79,7 +79,7 @@ abstract class PopoFactory
         }
 
         if ($this->isMultiple() && !$this->isInMultiple) {
-            return $this->createMultiple();
+            return $this->createMultiple($attributes);
         }
 
         return new $popoClass(...array_values($this->getAttributes($attributes)));
@@ -147,13 +147,13 @@ abstract class PopoFactory
      * @throws ReflectionException
      * @return Collection<int, mixed>
      */
-    private function createMultiple(): Collection
+    private function createMultiple(array $attributes = []): Collection
     {
         $this->isInMultiple = true;
         $collection = Collection::make();
 
         for ($i = 0, $total = $this->count; $i < $total; ++$i) {
-            $collection->push($this->create());
+            $collection->push($this->create($attributes));
         }
 
         $this->isInMultiple = false;
