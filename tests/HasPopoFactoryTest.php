@@ -26,6 +26,6 @@ class HasPopoFactoryTest extends TestCase
     {
         $factoryPath = ExamplePopo::getFactoryPath();
 
-        $this->assertEquals('Tests\Factory\ExamplePopoFactory', $factoryPath);
+        $this->assertEquals('Tests\\Factory\\ExamplePopoFactory', $factoryPath);
     }
 }

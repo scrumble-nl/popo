@@ -42,6 +42,6 @@ trait HasPopoFactory
 
         $popoClass = static::class;
 
-        return str_replace('\Popo\\', '\Factory\\', $popoClass . 'Factory');
+        return str_replace('\\Popo\\', '\\Factory\\', $popoClass . 'Factory');
     }
 }
