@@ -6,13 +6,17 @@ namespace Scrumble\Popo;
 
 use UnitEnum;
 use JsonSerializable;
+use Scrumble\Popo\Traits\ToSnakeCaseArray;
 use Illuminate\Contracts\Support\Arrayable;
+use Scrumble\Popo\Contracts\SnakeCaseArrayable;
 
 /**
  * @implements Arrayable<string, mixed>
  */
-class BasePopo implements JsonSerializable, Arrayable
+class BasePopo implements JsonSerializable, Arrayable, SnakeCaseArrayable
 {
+    use ToSnakeCaseArray;
+
     /**
      * @return static
      */
@@ -22,7 +26,7 @@ class BasePopo implements JsonSerializable, Arrayable
     }
 
     /**
-     * @return array<string, mixed>
+     * @return array<array-key, mixed>
      */
     public function toArray(): array
     {
@@ -45,7 +49,8 @@ class BasePopo implements JsonSerializable, Arrayable
     }
 
     /**
-     * @return array
+     * @return array<array-key, mixed>
+     * @deprecated Use toSnakeCaseArray instead
      */
     public function toTestArray(): array
     {
