@@ -2,6 +2,9 @@ includes:
     - ./vendor/larastan/larastan/extension.neon
 
 parameters:
+    ignoreErrors:
+    		-
+    			identifier: missingType.iterableValue
 
     checkModelProperties: true
 
@@ -9,5 +12,3 @@ parameters:
         - src
 
     level: 8
-
-    checkMissingIterableValueType: false

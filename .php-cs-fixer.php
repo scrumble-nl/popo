@@ -50,6 +50,7 @@ $excludes = [
 
 return (new PhpCsFixer\Config())
     ->setRules($rules)
+    ->setRiskyAllowed(true)
     ->setFinder(
         PhpCsFixer\Finder::create()
             ->in(__DIR__)

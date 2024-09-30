@@ -17,6 +17,7 @@ class TestCase extends OrchestraTestCase
      */
     public function seed($class = 'DatabaseSeeder')
     {
+        return $this;
     }
 
     /**

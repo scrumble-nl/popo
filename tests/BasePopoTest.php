@@ -7,6 +7,7 @@ namespace Tests;
 use Tests\Mock\ArrayPopo;
 use Tests\Mock\SamplePopo;
 use Tests\Mock\CollectionPopo;
+use Tests\Mock\NestedArrayPopo;
 use Orchestra\Testbench\TestCase;
 use Illuminate\Support\Facades\Route;
 
@@ -78,6 +79,52 @@ class BasePopoTest extends TestCase
         $array = $arrayablePopo->toTestArray();
 
         $this->assertEquals(['first_name' => 'Bertrand'], $array);
+    }
+
+    /** @test */
+    public function to_test_array_does_not_affect_nested_popos(): void
+    {
+        $nestedArrayPopo = new NestedArrayPopo(
+            'bazBarFoo',
+            new ArrayPopo('fooBarBaz'),
+        );
+
+        $array = $nestedArrayPopo->toTestArray();
+
+        $this->assertSame([
+            'foo_bar' => 'bazBarFoo',
+            'array_popo' => [
+                'firstName' => 'fooBarBaz',
+            ],
+        ], $array);
+    }
+
+    /** @test */
+    public function can_to_snake_case_array_a_popo(): void
+    {
+        $arrayablePopo = new ArrayPopo('Bertrand');
+
+        $array = $arrayablePopo->toSnakeCaseArray();
+
+        $this->assertEquals(['first_name' => 'Bertrand'], $array);
+    }
+
+    /** @test */
+    public function can_to_snake_case_array_a_nested_popo(): void
+    {
+        $nestedArrayPopo = new NestedArrayPopo(
+            'bazBarFoo',
+            new ArrayPopo('fooBarBaz'),
+        );
+
+        $array = $nestedArrayPopo->toSnakeCaseArray();
+
+        $this->assertSame([
+            'foo_bar' => 'bazBarFoo',
+            'array_popo' => [
+                'first_name' => 'fooBarBaz',
+            ],
+        ], $array);
     }
 
     /** @test */
