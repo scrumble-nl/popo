@@ -6,6 +6,4 @@ namespace Scrumble\Popo\Exception;
 
 use Exception;
 
-class InvalidPopoClassException extends Exception
-{
-}
+class InvalidPopoClassException extends Exception {}
