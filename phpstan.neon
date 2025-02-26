@@ -2,13 +2,10 @@ includes:
     - ./vendor/larastan/larastan/extension.neon
 
 parameters:
-    ignoreErrors:
-    		-
-    			identifier: missingType.iterableValue
-
     checkModelProperties: true
-
     paths:
         - src
-
     level: 8
+    ignoreErrors:
+        # This is not used within the package, but dependent projects use it.
+        - '#Trait Scrumble\\Popo\\HasPopoFactory is used zero times and is not analysed.#'

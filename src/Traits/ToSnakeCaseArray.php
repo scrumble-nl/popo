@@ -19,7 +19,7 @@ trait ToSnakeCaseArray
         $result = [];
 
         foreach ($array as $key => $value) {
-            $result[$this->keyToSnakeCase($key)] = $this->parseToArrayValue($value);
+            $result[snake_case($key)] = $this->parseToArrayValue($value);
         }
 
         return $result;
@@ -58,19 +58,5 @@ trait ToSnakeCaseArray
         }
 
         return $value;
-    }
-
-    /**
-     * @template T of int|string
-     * @param  T $key
-     * @return T
-     */
-    private function keyToSnakeCase(mixed $key): int|string
-    {
-        if (is_string($key)) {
-            return snake_case($key);
-        }
-
-        return $key;
     }
 }
