@@ -11,7 +11,7 @@ use Illuminate\Contracts\Support\Arrayable;
 use Scrumble\Popo\Contracts\SnakeCaseArrayable;
 
 /**
- * @implements Arrayable<string, mixed>
+ * @implements Arrayable<int|string, mixed>
  */
 class BasePopo implements JsonSerializable, Arrayable, SnakeCaseArrayable
 {
