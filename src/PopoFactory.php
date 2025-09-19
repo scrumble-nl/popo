@@ -142,11 +142,11 @@ abstract class PopoFactory
     abstract public function definition(): array;
 
     /**
-     * @param array<array-key, mixed> $attributes
-     * @return Collection<int, mixed>
+     * @param  array<array-key, mixed>   $attributes
      * @throws ClassNotDefinedException
      * @throws InvalidPopoClassException
      * @throws ReflectionException
+     * @return Collection<int, mixed>
      */
     private function createMultiple(array $attributes = []): Collection
     {
@@ -182,7 +182,7 @@ abstract class PopoFactory
     }
 
     /**
-     * @param  array<array-key, mixed>                     $attributes
+     * @param  array<array-key, mixed>   $attributes
      * @throws InvalidPopoClassException
      * @throws ReflectionException
      * @return array<array-key, mixed>
@@ -216,13 +216,14 @@ abstract class PopoFactory
 
     /**
      * @param  ReflectionParameter       $parameter
-     * @param  array<array-key, mixed>                     $attributes
+     * @param  array<array-key, mixed>   $attributes
+     * @param  array<array-key, mixed>   $definition
      * @throws ClassNotDefinedException
      * @throws InvalidPopoClassException
      * @throws ReflectionException
      * @return mixed
      */
-    private function getParameterDefault(ReflectionParameter $parameter, array $attributes): mixed
+    private function getParameterDefault(ReflectionParameter $parameter, array $attributes, array $definition): mixed
     {
         $parameterName = $parameter->getName();
 
@@ -238,8 +239,8 @@ abstract class PopoFactory
             return $this->sequence[$this->sequenceIndex][$parameterName];
         }
 
-        if (array_key_exists($parameterName, $this->definition())) {
-            $definition = $this->definition()[$parameterName];
+        if (array_key_exists($parameterName, $definition)) {
+            $definition = $definition[$parameterName];
 
             if ($definition instanceof PopoFactory) {
                 return $definition->create();
@@ -257,7 +258,7 @@ abstract class PopoFactory
 
     /**
      * @param  ReflectionMethod          $constructor
-     * @param  array<array-key, mixed>                     $attributes
+     * @param  array<array-key, mixed>   $attributes
      * @throws InvalidPopoClassException
      * @throws ReflectionException
      * @return array<array-key, mixed>
@@ -266,9 +267,10 @@ abstract class PopoFactory
     {
         $parameters = $constructor->getParameters();
         $defaults = [];
+        $definition = $this->definition();
 
         foreach ($parameters as $parameter) {
-            $defaults[$parameter->getName()] = $this->getParameterDefault($parameter, $attributes);
+            $defaults[$parameter->getName()] = $this->getParameterDefault($parameter, $attributes, $definition);
         }
 
         return $defaults;
