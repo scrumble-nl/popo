@@ -5,8 +5,7 @@ declare(strict_types=1);
 namespace Scrumble\Popo\Traits;
 
 use BackedEnum;
-use Illuminate\Contracts\Support\Arrayable;
-use Scrumble\Popo\Contracts\SnakeCaseArrayable;
+use Illuminate\Support\Arr;
 
 trait ToSnakeCaseArray
 {
@@ -15,7 +14,7 @@ trait ToSnakeCaseArray
      */
     public function toSnakeCaseArray(): array
     {
-        $array = $this->all();
+        $array = $this->toArray();
         $result = [];
 
         foreach ($array as $key => $value) {
@@ -31,29 +30,8 @@ trait ToSnakeCaseArray
      */
     private function parseToArrayValue(mixed $value): mixed
     {
-        if ($value instanceof BackedEnum) {
-            return $value->value;
-        }
-
-        if (!is_scalar($value) && null !== $value && !is_array($value)) {
-            return $this->getSnakeCaseArrayableItems($value);
-        }
-
-        return $value;
-    }
-
-    /**
-     * @param  mixed       $value
-     * @return array|mixed
-     */
-    private function getSnakeCaseArrayableItems(mixed $value): mixed
-    {
-        if ($value instanceof SnakeCaseArrayable) {
-            return $value->toSnakeCaseArray();
-        }
-
-        if ($value instanceof Arrayable) {
-            return $value->toArray();
+        if (is_array($value)) {
+            return Arr::mapWithKeys($value, fn ($item, $key) => [snake_case($key) => $this->parseToArrayValue($item)]);
         }
 
         return $value;

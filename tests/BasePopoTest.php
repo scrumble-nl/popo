@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 namespace Tests;
 
+use PHPUnit\Framework\Attributes\Test;
 use Tests\Mock\ArrayPopo;
 use Tests\Mock\SamplePopo;
 use Tests\Mock\CollectionPopo;
 use Tests\Mock\NestedArrayPopo;
 use Illuminate\Support\Facades\Route;
+use Tests\Popo\ExampleEnum;
+use Tests\Popo\ExampleEnumPopo;
 
 /**
  * @internal
@@ -106,6 +109,38 @@ class BasePopoTest extends TestCase
         $array = $arrayablePopo->toSnakeCaseArray();
 
         $this->assertEquals(['first_name' => 'Bertrand'], $array);
+    }
+
+    #[Test]
+    public function can_to_snake_case_array_with_collection(): void {
+        $arrayablePopo = new CollectionPopo('private', collect([
+            new SamplePopo('Alice'),
+            new SamplePopo('Bob'),
+        ]), 2);
+
+        $array = $arrayablePopo->toSnakeCaseArray();
+
+        $this->assertEquals([
+            'samples' => [
+                ['name' => 'Alice'],
+                ['name' => 'Bob'],
+            ],
+            'number' => 2,
+            'nullable' => null,
+            'array' => [],
+        ], $array);
+    }
+
+    #[Test]
+    public function can_to_snake_case_array_with_enum(): void {
+        $enumPopo = new ExampleEnumPopo(ExampleEnum::A, ExampleEnum::B);
+
+        $array = $enumPopo->toSnakeCaseArray();
+
+        $this->assertEquals([
+            'a' => 'A',
+            'b' => 'B',
+        ], $array);
     }
 
     /** @test */
