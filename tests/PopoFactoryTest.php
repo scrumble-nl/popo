@@ -11,6 +11,10 @@ use Tests\Popo\ExampleParentPopo;
 use Illuminate\Support\Collection;
 use Tests\Factory\ExamplePopoFactory;
 use Illuminate\Foundation\Testing\WithFaker;
+use Scrumble\Popo\Exception\ClassNotDefinedException;
+use Tests\Factory\TestFactoryWithoutPopoClass;
+use Tests\Factory\TestFactoryWithInvalidClass;
+use Tests\Factory\TestFactoryWithValidPopoClass;
 
 /**
  * @internal
@@ -204,5 +208,48 @@ class PopoFactoryTest extends TestCase
 
         $this->assertEquals($name, $popo->name);
         $this->assertNotEquals($oldName, $popo->name);
+    }
+
+    /** @test */
+    public function throws_exception_when_popo_class_is_null(): void
+    {
+        $this->expectException(ClassNotDefinedException::class);
+        $this->expectExceptionMessage('The $popoClass property could not be found in the factory Tests\Factory\TestFactoryWithoutPopoClass');
+
+        new TestFactoryWithoutPopoClass();
+    }
+
+    /** @test */
+    public function throws_exception_when_class_does_not_extend_base_popo(): void
+    {
+        $this->expectException(ClassNotDefinedException::class);
+        $this->expectExceptionMessage('The class stdClass does not extend BasePopo and cannot be used in Tests\Factory\TestFactoryWithInvalidClass');
+
+        new TestFactoryWithInvalidClass();
+    }
+
+    /** @test */
+    public function does_not_throw_exception_when_valid_popo_class_is_provided(): void
+    {
+        $factory = new TestFactoryWithValidPopoClass();
+        
+        $this->assertInstanceOf(PopoFactory::class, $factory);
+    }
+
+    /** @test */
+    public function accepts_valid_popo_class_via_constructor_parameter(): void
+    {
+        $factory = new TestFactoryWithoutPopoClass(ExamplePopo::class);
+        
+        $this->assertInstanceOf(PopoFactory::class, $factory);
+    }
+
+    /** @test */
+    public function throws_exception_when_invalid_class_passed_via_constructor(): void
+    {
+        $this->expectException(ClassNotDefinedException::class);
+        $this->expectExceptionMessage('The class stdClass does not extend BasePopo and cannot be used in Tests\Factory\TestFactoryWithoutPopoClass');
+
+        new TestFactoryWithoutPopoClass('stdClass');
     }
 }

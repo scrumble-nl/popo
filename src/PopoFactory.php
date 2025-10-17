@@ -69,13 +69,13 @@ abstract class PopoFactory extends CreationContextFactory
         $popoClass ??= $this->popoClass;
 
         if ($popoClass === null) {
-            $className = self::class;
+            $className = static::class;
 
             throw new ClassNotDefinedException("The \$popoClass property could not be found in the factory {$className}");
         }
 
         if (!is_a($popoClass, BasePopo::class, true)) {
-            $className = self::class;
+            $className = static::class;
 
             throw new ClassNotDefinedException("The class {$popoClass} does not extend BasePopo and cannot be used in {$className}");
         }
