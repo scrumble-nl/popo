@@ -14,7 +14,7 @@ use Spatie\LaravelData\Support\Creation\CreationContextFactory;
 /**
  * @implements Arrayable<int|string, mixed>
  */
-class BasePopo extends Data implements JsonSerializable, Arrayable, SnakeCaseArrayable
+abstract class BasePopo extends Data implements JsonSerializable, Arrayable, SnakeCaseArrayable
 {
     use ToSnakeCaseArray;
 
