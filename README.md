@@ -254,7 +254,7 @@ php artisan vendor:publish --provider="Spatie\LaravelData\LaravelDataServiceProv
 This package also includes [Laravel TypeScript Transformer](https://spatie.be/docs/typescript-transformer) by Spatie to generate Typescript types from your Popo's. This makes it easy to keep your front-end and back-end in sync when it comes to data structures.
 To start using the TypeScript Transformer, you need to publish the config file using the following command:
 ```bash
-php artisan vendor:publish --provider="Spatie\LaravelTypeScriptTransformer\TypeScriptTransformerServiceProvider"
+php artisan vendor:publish --provider="Spatie\LaravelTypeScriptTransformer\TypeScriptTransformerServiceProvider" --tag="typescript-transformer-config"
 ```
 This will publish a config file which you can customize to fit your needs. After publishing the config file, you can generate the TypeScript types by running the following command:
 ```bash
