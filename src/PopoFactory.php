@@ -60,17 +60,24 @@ abstract class PopoFactory extends CreationContextFactory
     private bool $isInMultiple = false;
 
     /**
+     * @param class-string<BasePopo>|null $popoClass
      * @param CreationContext<BasePopo>|null $creationContext
      * @throws ClassNotDefinedException
      */
-    public function __construct(?CreationContext $creationContext = null)
+    public function __construct(?string $popoClass, ?CreationContext $creationContext = null)
     {
-        $popoClass = $this->popoClass;
+        $popoClass ??= $this->popoClass;
 
-        if (!$popoClass) {
+        if ($popoClass === null) {
             $className = self::class;
 
             throw new ClassNotDefinedException("The \$popoClass property could not be found in the factory {$className}");
+        }
+
+        if (!is_a($popoClass, BasePopo::class, true)) {
+            $className = self::class;
+
+            throw new ClassNotDefinedException("The class {$popoClass} does not extend BasePopo and cannot be used in {$className}");
         }
 
         if ($creationContext) {

@@ -29,7 +29,7 @@ trait HasPopoFactory
             throw new InvalidTypeException("{$factoryClass} is not a valid popo factory.");
         }
 
-        return new $factoryClass($creationContext);
+        return new $factoryClass(static::class, $creationContext);
     }
 
     /**
