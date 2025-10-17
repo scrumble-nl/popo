@@ -9,6 +9,7 @@ use Tests\Popo\ExamplePopo;
 use Scrumble\Popo\PopoFactory;
 use Spatie\LaravelData\Support\Creation\CreationContextFactory;
 use Tests\Popo\PopoWithInvalidFactory;
+use Tests\Popo\AutoDiscoveryPopo;
 
 /**
  * @internal
@@ -46,5 +47,31 @@ class HasPopoFactoryTest extends TestCase
         $this->expectException(InvalidTypeException::class);
 
         PopoWithInvalidFactory::factory();
+    }
+
+    /** @test */
+    public function can_auto_discover_factory_path(): void
+    {
+        $factoryPath = AutoDiscoveryPopo::getFactoryPath();
+
+        $this->assertEquals('Tests\\Factory\\AutoDiscoveryPopoFactory', $factoryPath);
+    }
+
+    /** @test */
+    public function can_use_auto_discovered_factory(): void
+    {
+        $factory = AutoDiscoveryPopo::factory();
+
+        $this->assertInstanceOf(PopoFactory::class, $factory);
+        $this->assertSame(AutoDiscoveryPopo::class, $factory->dataClass);
+    }
+
+    /** @test */
+    public function auto_discovered_factory_can_create_instances(): void
+    {
+        $popo = AutoDiscoveryPopo::factory()->create();
+
+        $this->assertInstanceOf(AutoDiscoveryPopo::class, $popo);
+        $this->assertIsString($popo->title);
     }
 }

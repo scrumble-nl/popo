@@ -25,7 +25,7 @@ trait ToSnakeCaseArray
     }
 
     /**
-     * @param  mixed $value
+     * @param  mixed|array $value
      * @return mixed
      */
     private function parseToArrayValue(mixed $value): mixed

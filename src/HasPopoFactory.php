@@ -13,7 +13,9 @@ trait HasPopoFactory
      * @throws InvalidTypeException
      * @return null|string
      */
-    abstract public static function popoFactory(): ?string;
+    public static function popoFactory(): ?string {
+        return null;
+    }
 
     /**
      * @throws InvalidTypeException
