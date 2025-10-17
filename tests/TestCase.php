@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Tests;
 
 use Scrumble\Popo\PopoServiceProvider;
-use Orchestra\Testbench\TestCase as OrchestraTestCase;
 use Spatie\LaravelData\LaravelDataServiceProvider;
+use Orchestra\Testbench\TestCase as OrchestraTestCase;
 
 /**
  * @internal

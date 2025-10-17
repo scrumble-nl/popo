@@ -34,7 +34,7 @@ trait HasPopoFactory
 
     /**
      * @throws InvalidTypeException
-     * @return string
+     * @return class-string<PopoFactory>
      */
     public static function getFactoryPath(): string
     {

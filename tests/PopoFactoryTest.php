@@ -11,10 +11,12 @@ use Tests\Popo\ExampleParentPopo;
 use Illuminate\Support\Collection;
 use Tests\Factory\ExamplePopoFactory;
 use Illuminate\Foundation\Testing\WithFaker;
-use Scrumble\Popo\Exception\ClassNotDefinedException;
 use Tests\Factory\TestFactoryWithoutPopoClass;
 use Tests\Factory\TestFactoryWithInvalidClass;
 use Tests\Factory\TestFactoryWithValidPopoClass;
+use Scrumble\Popo\Exception\ClassNotDefinedException;
+use Spatie\LaravelData\Support\Creation\CreationContext;
+use Spatie\LaravelData\Support\Creation\ValidationStrategy;
 
 /**
  * @internal
@@ -211,6 +213,22 @@ class PopoFactoryTest extends TestCase
     }
 
     /** @test */
+    public function can_set_state_with_array(): void
+    {
+        $name = $this->faker->unique()->name;
+        $content = $this->faker->unique()->text;
+        $oldName = $this->faker->unique()->name;
+
+        $popo = ExamplePopo::factory()->state([
+            'name' => $name,
+            'content' => $content,
+        ])->create(['name' => $oldName]);
+
+        $this->assertEquals($name, $popo->name);
+        $this->assertEquals($content, $popo->content);
+    }
+
+    /** @test */
     public function throws_exception_when_popo_class_is_null(): void
     {
         $this->expectException(ClassNotDefinedException::class);
@@ -251,5 +269,53 @@ class PopoFactoryTest extends TestCase
         $this->expectExceptionMessage('The class stdClass does not extend BasePopo and cannot be used in Tests\Factory\TestFactoryWithoutPopoClass');
 
         new TestFactoryWithoutPopoClass('stdClass');
+    }
+
+    /** @test */
+    public function can_create_factory_with_creation_context(): void
+    {
+        $creationContext = new CreationContext(
+            dataClass: ExamplePopo::class,
+            mappedProperties: [],
+            currentPath: [],
+            validationStrategy: ValidationStrategy::Disabled,
+            mapPropertyNames: false,
+            disableMagicalCreation: true,
+            useOptionalValues: false,
+            ignoredMagicalMethods: [],
+            casts: null,
+        );
+
+        $factory = new TestFactoryWithoutPopoClass(ExamplePopo::class, $creationContext);
+
+        $this->assertInstanceOf(PopoFactory::class, $factory);
+        $this->assertEquals(ValidationStrategy::Disabled, $factory->validationStrategy);
+        $this->assertFalse($factory->mapPropertyNames);
+        $this->assertTrue($factory->disableMagicalCreation);
+        $this->assertFalse($factory->useOptionalValues);
+    }
+
+    /** @test */
+    public function creation_context_overrides_default_configuration(): void
+    {
+        $creationContext = new CreationContext(
+            dataClass: ExamplePopo::class,
+            mappedProperties: [],
+            currentPath: [],
+            validationStrategy: ValidationStrategy::Always,
+            mapPropertyNames: false,
+            disableMagicalCreation: true,
+            useOptionalValues: false,
+            ignoredMagicalMethods: ['someMethod'],
+            casts: null,
+        );
+
+        $factory = new TestFactoryWithValidPopoClass(null, $creationContext);
+
+        $this->assertEquals(ValidationStrategy::Always, $factory->validationStrategy);
+        $this->assertFalse($factory->mapPropertyNames);
+        $this->assertTrue($factory->disableMagicalCreation);
+        $this->assertFalse($factory->useOptionalValues);
+        $this->assertEquals(['someMethod'], $factory->ignoredMagicalMethods);
     }
 }
