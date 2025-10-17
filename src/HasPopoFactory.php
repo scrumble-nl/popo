@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Scrumble\Popo;
 
 use Scrumble\Popo\Exception\InvalidTypeException;
+use Spatie\LaravelData\Support\Creation\CreationContext;
 
 trait HasPopoFactory
 {
@@ -18,7 +19,7 @@ trait HasPopoFactory
      * @throws InvalidTypeException
      * @return PopoFactory
      */
-    public static function factory(): PopoFactory
+    public static function factory(?CreationContext $creationContext = null): PopoFactory
     {
         $factoryClass = self::getFactoryPath();
 
@@ -26,8 +27,7 @@ trait HasPopoFactory
             throw new InvalidTypeException("{$factoryClass} is not a valid popo factory.");
         }
 
-        // @var PopoFactory $factory
-        return new $factoryClass();
+        return new $factoryClass($creationContext);
     }
 
     /**

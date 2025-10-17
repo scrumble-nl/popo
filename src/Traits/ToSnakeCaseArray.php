@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Scrumble\Popo\Traits;
 
-use UnitEnum;
+use BackedEnum;
 use Illuminate\Contracts\Support\Arrayable;
 use Scrumble\Popo\Contracts\SnakeCaseArrayable;
 
@@ -15,7 +15,7 @@ trait ToSnakeCaseArray
      */
     public function toSnakeCaseArray(): array
     {
-        $array = get_object_vars($this);
+        $array = $this->all();
         $result = [];
 
         foreach ($array as $key => $value) {
@@ -31,8 +31,7 @@ trait ToSnakeCaseArray
      */
     private function parseToArrayValue(mixed $value): mixed
     {
-        if ($value instanceof UnitEnum) {
-            // @phpstan-ignore-next-line
+        if ($value instanceof BackedEnum) {
             return $value->value;
         }
 

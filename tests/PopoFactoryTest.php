@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Tests;
 
 use Scrumble\Popo\BasePopo;
+use Spatie\LaravelData\Support\Creation\CreationContextFactory;
 use Tests\Popo\ExamplePopo;
 use Scrumble\Popo\PopoFactory;
-use Orchestra\Testbench\TestCase;
 use Tests\Popo\ExampleParentPopo;
 use Illuminate\Support\Collection;
 use Tests\Factory\ExamplePopoFactory;

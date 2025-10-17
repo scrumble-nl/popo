@@ -13,15 +13,21 @@ use Illuminate\Support\Collection;
 use Illuminate\Foundation\Testing\WithFaker;
 use Scrumble\Popo\Exception\ClassNotDefinedException;
 use Scrumble\Popo\Exception\InvalidPopoClassException;
+use Spatie\LaravelData\Support\Creation\CreationContext;
+use Spatie\LaravelData\Support\Creation\ValidationStrategy;
+use Spatie\LaravelData\Support\Creation\CreationContextFactory;
 
-abstract class PopoFactory
+/**
+ * @extends CreationContextFactory<BasePopo>
+ */
+abstract class PopoFactory extends CreationContextFactory
 {
     use WithFaker;
 
     /**
-     * @var null|string
+     * @var class-string<BasePopo>|null
      */
-    public ?string $popoClass = null;
+    public ?string $popoClass;
 
     /**
      * @var int
@@ -54,10 +60,43 @@ abstract class PopoFactory
     private bool $isInMultiple = false;
 
     /**
-     * {@internal}.
+     * @param CreationContext<BasePopo>|null $creationContext
+     * @throws ClassNotDefinedException
      */
-    public function __construct()
+    public function __construct(?CreationContext $creationContext = null)
     {
+        $popoClass = $this->popoClass;
+
+        if (!$popoClass) {
+            $className = self::class;
+
+            throw new ClassNotDefinedException("The \$popoClass property could not be found in the factory {$className}");
+        }
+
+        if ($creationContext) {
+            parent::__construct(
+                dataClass: $popoClass,
+                validationStrategy: $creationContext->validationStrategy,
+                mapPropertyNames: $creationContext->mapPropertyNames,
+                disableMagicalCreation: $creationContext->disableMagicalCreation,
+                useOptionalValues: $creationContext->useOptionalValues,
+                ignoredMagicalMethods: $creationContext->ignoredMagicalMethods,
+                casts: $creationContext->casts,
+            );
+        } else {
+            $validationConfig = config('data')['validation_strategy'];
+
+            parent::__construct(
+                dataClass: $popoClass,
+                validationStrategy: ValidationStrategy::tryFrom($validationConfig) ?? ValidationStrategy::OnlyRequests,
+                mapPropertyNames: true,
+                disableMagicalCreation: false,
+                useOptionalValues: true,
+                ignoredMagicalMethods: null,
+                casts: null,
+            );
+        }
+
         $this->setUpFaker();
     }
 
@@ -71,12 +110,6 @@ abstract class PopoFactory
     public function create(array $attributes = []): mixed
     {
         $popoClass = $this->popoClass;
-
-        if (!$popoClass) {
-            $className = self::class;
-
-            throw new ClassNotDefinedException("The \$popoClass property could not be found in the factory {$className}");
-        }
 
         if ($this->isMultiple() && !$this->isInMultiple) {
             return $this->createMultiple($attributes);

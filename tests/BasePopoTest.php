@@ -8,7 +8,6 @@ use Tests\Mock\ArrayPopo;
 use Tests\Mock\SamplePopo;
 use Tests\Mock\CollectionPopo;
 use Tests\Mock\NestedArrayPopo;
-use Orchestra\Testbench\TestCase;
 use Illuminate\Support\Facades\Route;
 
 /**

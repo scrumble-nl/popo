@@ -32,12 +32,4 @@ abstract class BasePopo extends Data implements JsonSerializable, Arrayable, Sna
 
         return $properties;
     }
-
-    /**
-     * @return CreationContextFactory<static>
-     */
-    public static function builder(): CreationContextFactory
-    {
-        return self::factory();
-    }
 }

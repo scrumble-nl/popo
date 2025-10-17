@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Tests;
 
+use Spatie\LaravelData\Support\Creation\CreationContextFactory;
 use Tests\Popo\ExamplePopo;
 use Scrumble\Popo\PopoFactory;
-use Orchestra\Testbench\TestCase;
 
 /**
  * @internal
@@ -19,6 +19,15 @@ class HasPopoFactoryTest extends TestCase
         $factory = ExamplePopo::factory();
 
         $this->assertInstanceOf(PopoFactory::class, $factory);
+    }
+
+    /** @test */
+    public function factory_returns_laravel_data_factory(): void
+    {
+        $factory = ExamplePopo::factory();
+
+        $this->assertInstanceOf(CreationContextFactory::class, $factory);
+        $this->assertSame(ExamplePopo::class, $factory->dataClass);
     }
 
     /** @test */
