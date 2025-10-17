@@ -64,7 +64,7 @@ abstract class PopoFactory extends CreationContextFactory
      * @param CreationContext<BasePopo>|null $creationContext
      * @throws ClassNotDefinedException
      */
-    public function __construct(?string $popoClass, ?CreationContext $creationContext = null)
+    public function __construct(?string $popoClass = null, ?CreationContext $creationContext = null)
     {
         $popoClass ??= $this->popoClass;
 
