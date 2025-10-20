@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests;
 
 use Scrumble\Popo\PopoServiceProvider;
+use Spatie\LaravelData\LaravelDataServiceProvider;
 use Orchestra\Testbench\TestCase as OrchestraTestCase;
 
 /**
@@ -27,6 +28,7 @@ class TestCase extends OrchestraTestCase
     {
         return [
             PopoServiceProvider::class,
+            LaravelDataServiceProvider::class,
         ];
     }
 }

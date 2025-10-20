@@ -243,6 +243,24 @@ $productData = ProductPopo::factory()->raw([
 
 In the above example, we are creating a new array of ProductPopo instance attributes using the `raw()` function and overriding the default name value with our own value.
 
+## Laravel Data
+The Popo package uses [Laravel Data](https://spatie.be/docs/laravel-data) by Spatie under the hood, which adds a lot of functionality to the basic Popo concept. Make sure to check out their documentation for more information on what you can do with Popo's.
+The config file can be published using the following command:
+```bash
+php artisan vendor:publish --provider="Spatie\LaravelData\LaravelDataServiceProvider" --tag="data-config"
+```
+
+## Typescript Type Generation
+This package also includes [Laravel TypeScript Transformer](https://spatie.be/docs/typescript-transformer) by Spatie to generate Typescript types from your Popo's. This makes it easy to keep your front-end and back-end in sync when it comes to data structures.
+To start using the TypeScript Transformer, you need to publish the config file using the following command:
+```bash
+php artisan vendor:publish --provider="Spatie\LaravelTypeScriptTransformer\TypeScriptTransformerServiceProvider" --tag="typescript-transformer-config"
+```
+This will publish a config file which you can customize to fit your needs. After publishing the config file, you can generate the TypeScript types by running the following command:
+```bash
+php artisan typescript:transform
+```
+
 ## Contributing
 If you would like to see additions/changes to this package you are always welcome to add some code or improve it.
 

@@ -4,9 +4,12 @@ declare(strict_types=1);
 
 namespace Tests;
 
+use Scrumble\Popo\Exception\InvalidTypeException;
 use Tests\Popo\ExamplePopo;
 use Scrumble\Popo\PopoFactory;
-use Orchestra\Testbench\TestCase;
+use Spatie\LaravelData\Support\Creation\CreationContextFactory;
+use Tests\Popo\PopoWithInvalidFactory;
+use Tests\Popo\AutoDiscoveryPopo;
 
 /**
  * @internal
@@ -22,10 +25,53 @@ class HasPopoFactoryTest extends TestCase
     }
 
     /** @test */
+    public function factory_returns_laravel_data_factory(): void
+    {
+        $factory = ExamplePopo::factory();
+
+        $this->assertInstanceOf(CreationContextFactory::class, $factory);
+        $this->assertSame(ExamplePopo::class, $factory->dataClass);
+    }
+
+    /** @test */
     public function can_get_factory_path(): void
     {
         $factoryPath = ExamplePopo::getFactoryPath();
 
         $this->assertEquals('Tests\\Factory\\ExamplePopoFactory', $factoryPath);
+    }
+
+    /** @test */
+    public function factory_throws_exception_when_popo_has_invalid_factory_class(): void
+    {
+        $this->expectException(InvalidTypeException::class);
+
+        PopoWithInvalidFactory::factory();
+    }
+
+    /** @test */
+    public function can_auto_discover_factory_path(): void
+    {
+        $factoryPath = AutoDiscoveryPopo::getFactoryPath();
+
+        $this->assertEquals('Tests\\Factory\\AutoDiscoveryPopoFactory', $factoryPath);
+    }
+
+    /** @test */
+    public function can_use_auto_discovered_factory(): void
+    {
+        $factory = AutoDiscoveryPopo::factory();
+
+        $this->assertInstanceOf(PopoFactory::class, $factory);
+        $this->assertSame(AutoDiscoveryPopo::class, $factory->dataClass);
+    }
+
+    /** @test */
+    public function auto_discovered_factory_can_create_instances(): void
+    {
+        $popo = AutoDiscoveryPopo::factory()->create();
+
+        $this->assertInstanceOf(AutoDiscoveryPopo::class, $popo);
+        $this->assertIsString($popo->title);
     }
 }
