@@ -17,19 +17,10 @@ use Scrumble\Popo\Exception\InvalidPopoClassException;
 
 abstract class PopoFactory
 {
-    /**
-     * @var null|string
-     */
     public ?string $popoClass = null;
 
-    /**
-     * @var Generator
-     */
     protected Generator $faker;
 
-    /**
-     * @var int
-     */
     private int $count = 1;
 
     /**
@@ -37,9 +28,6 @@ abstract class PopoFactory
      */
     private array $sequence = [];
 
-    /**
-     * @var int
-     */
     private int $sequenceIndex = 0;
 
     /**
@@ -52,9 +40,6 @@ abstract class PopoFactory
      */
     private array $state = [];
 
-    /**
-     * @var bool
-     */
     private bool $isInMultiple = false;
 
     /**
