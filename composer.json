@@ -53,7 +53,7 @@
   },
   "suggest": {
     "fakerphp/faker": "Required to use PopoFactory for generating fake data (^1.9.1).",
-    "illuminate/console": "Required to use the make:popo command, which extends Illuminate\\Console\\GeneratorCommand (^9.0|^10.0|^11.0|^12.0)."
+    "illuminate/console": "Required to use the make:popo command (^9.0|^10.0|^11.0|^12.0)."
   },
   "extra": {
     "laravel": {
