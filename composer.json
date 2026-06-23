@@ -51,7 +51,8 @@
     "phpunit/phpunit": "^9.0|^10.0|^11.0"
   },
   "suggest": {
-    "laravel/framework": "Required to use PopoFactory (Illuminate\\Foundation\\Testing\\WithFaker) and the make:popo command (Illuminate\\Console\\GeneratorCommand)."
+    "illuminate/console": "Required to use the make:popo command (Illuminate\\Console\\GeneratorCommand).",
+    "laravel/framework": "Required to use PopoFactory (Illuminate\\Foundation\\Testing\\WithFaker)."
   },
   "extra": {
     "laravel": {
