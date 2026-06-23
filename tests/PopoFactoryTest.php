@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Tests;
 
+use Faker\Factory;
+use Faker\Generator;
 use Scrumble\Popo\BasePopo;
 use Tests\Popo\ExamplePopo;
 use Scrumble\Popo\PopoFactory;
@@ -11,14 +13,20 @@ use Orchestra\Testbench\TestCase;
 use Tests\Popo\ExampleParentPopo;
 use Illuminate\Support\Collection;
 use Tests\Factory\ExamplePopoFactory;
-use Illuminate\Foundation\Testing\WithFaker;
 
 /**
  * @internal
  */
 class PopoFactoryTest extends TestCase
 {
-    use WithFaker;
+    protected Generator $faker;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->faker = Factory::create();
+    }
 
     /** @test */
     public function can_get_factory(): void

@@ -4,28 +4,23 @@ declare(strict_types=1);
 
 namespace Scrumble\Popo;
 
+use Faker\Factory;
+use Faker\Generator;
 use ReflectionClass;
 use ReflectionMethod;
 use ReflectionException;
 use ReflectionParameter;
 use InvalidArgumentException;
 use Illuminate\Support\Collection;
-use Illuminate\Foundation\Testing\WithFaker;
 use Scrumble\Popo\Exception\ClassNotDefinedException;
 use Scrumble\Popo\Exception\InvalidPopoClassException;
 
 abstract class PopoFactory
 {
-    use WithFaker;
-
-    /**
-     * @var null|string
-     */
     public ?string $popoClass = null;
 
-    /**
-     * @var int
-     */
+    protected Generator $faker;
+
     private int $count = 1;
 
     /**
@@ -33,9 +28,6 @@ abstract class PopoFactory
      */
     private array $sequence = [];
 
-    /**
-     * @var int
-     */
     private int $sequenceIndex = 0;
 
     /**
@@ -48,9 +40,6 @@ abstract class PopoFactory
      */
     private array $state = [];
 
-    /**
-     * @var bool
-     */
     private bool $isInMultiple = false;
 
     /**
@@ -58,7 +47,7 @@ abstract class PopoFactory
      */
     public function __construct()
     {
-        $this->setUpFaker();
+        $this->faker = Factory::create();
     }
 
     /**
@@ -66,7 +55,6 @@ abstract class PopoFactory
      * @throws ClassNotDefinedException
      * @throws InvalidPopoClassException
      * @throws ReflectionException
-     * @return mixed
      */
     public function create(array $attributes = []): mixed
     {
@@ -100,7 +88,6 @@ abstract class PopoFactory
     }
 
     /**
-     * @param  int   $count
      * @return $this
      */
     public function count(int $count): PopoFactory
@@ -215,13 +202,11 @@ abstract class PopoFactory
     }
 
     /**
-     * @param  ReflectionParameter       $parameter
      * @param  array<array-key, mixed>   $attributes
      * @param  array<array-key, mixed>   $definition
      * @throws ClassNotDefinedException
      * @throws InvalidPopoClassException
      * @throws ReflectionException
-     * @return mixed
      */
     private function getParameterDefault(ReflectionParameter $parameter, array $attributes, array $definition): mixed
     {
@@ -257,7 +242,6 @@ abstract class PopoFactory
     }
 
     /**
-     * @param  ReflectionMethod          $constructor
      * @param  array<array-key, mixed>   $attributes
      * @throws InvalidPopoClassException
      * @throws ReflectionException
@@ -276,10 +260,6 @@ abstract class PopoFactory
         return $defaults;
     }
 
-    /**
-     * @param  null|string $sequenceKey
-     * @return bool
-     */
     private function hasSequence(?string $sequenceKey = null): bool
     {
         $sequenceKeyExists = ($sequenceKey && (!empty($this->sequence[$this->sequenceIndex])
@@ -288,9 +268,6 @@ abstract class PopoFactory
         return $this->sequence && $sequenceKeyExists;
     }
 
-    /**
-     * @return bool
-     */
     private function isMultiple(): bool
     {
         return $this->count > 1;
