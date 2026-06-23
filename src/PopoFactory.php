@@ -55,7 +55,6 @@ abstract class PopoFactory
      * @throws ClassNotDefinedException
      * @throws InvalidPopoClassException
      * @throws ReflectionException
-     * @return mixed
      */
     public function create(array $attributes = []): mixed
     {
@@ -89,7 +88,6 @@ abstract class PopoFactory
     }
 
     /**
-     * @param  int   $count
      * @return $this
      */
     public function count(int $count): PopoFactory
@@ -204,13 +202,11 @@ abstract class PopoFactory
     }
 
     /**
-     * @param  ReflectionParameter       $parameter
      * @param  array<array-key, mixed>   $attributes
      * @param  array<array-key, mixed>   $definition
      * @throws ClassNotDefinedException
      * @throws InvalidPopoClassException
      * @throws ReflectionException
-     * @return mixed
      */
     private function getParameterDefault(ReflectionParameter $parameter, array $attributes, array $definition): mixed
     {
@@ -246,7 +242,6 @@ abstract class PopoFactory
     }
 
     /**
-     * @param  ReflectionMethod          $constructor
      * @param  array<array-key, mixed>   $attributes
      * @throws InvalidPopoClassException
      * @throws ReflectionException
@@ -265,10 +260,6 @@ abstract class PopoFactory
         return $defaults;
     }
 
-    /**
-     * @param  null|string $sequenceKey
-     * @return bool
-     */
     private function hasSequence(?string $sequenceKey = null): bool
     {
         $sequenceKeyExists = ($sequenceKey && (!empty($this->sequence[$this->sequenceIndex])
@@ -277,9 +268,6 @@ abstract class PopoFactory
         return $this->sequence && $sequenceKeyExists;
     }
 
-    /**
-     * @return bool
-     */
     private function isMultiple(): bool
     {
         return $this->count > 1;
