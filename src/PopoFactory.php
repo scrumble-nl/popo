@@ -4,24 +4,28 @@ declare(strict_types=1);
 
 namespace Scrumble\Popo;
 
+use Faker\Factory;
+use Faker\Generator;
 use ReflectionClass;
 use ReflectionMethod;
 use ReflectionException;
 use ReflectionParameter;
 use InvalidArgumentException;
 use Illuminate\Support\Collection;
-use Illuminate\Foundation\Testing\WithFaker;
 use Scrumble\Popo\Exception\ClassNotDefinedException;
 use Scrumble\Popo\Exception\InvalidPopoClassException;
 
 abstract class PopoFactory
 {
-    use WithFaker;
-
     /**
      * @var null|string
      */
     public ?string $popoClass = null;
+
+    /**
+     * @var Generator
+     */
+    protected Generator $faker;
 
     /**
      * @var int
@@ -58,7 +62,7 @@ abstract class PopoFactory
      */
     public function __construct()
     {
-        $this->setUpFaker();
+        $this->faker = Factory::create();
     }
 
     /**

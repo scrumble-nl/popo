@@ -44,6 +44,7 @@
     "laravel/helpers": "^1.6"
   },
   "require-dev": {
+    "fakerphp/faker": "^1.9.1",
     "friendsofphp/php-cs-fixer": "^3.8",
     "larastan/larastan": "^2.1|^3.0",
     "laravel/framework": "^9.0|^10.0|^11.0|^12.0",
@@ -51,8 +52,8 @@
     "phpunit/phpunit": "^9.0|^10.0|^11.0"
   },
   "suggest": {
-    "illuminate/console": "Required to use the make:popo command (Illuminate\\Console\\GeneratorCommand).",
-    "laravel/framework": "Required to use PopoFactory (Illuminate\\Foundation\\Testing\\WithFaker)."
+    "fakerphp/faker": "Required to use PopoFactory for generating fake data (^1.9.1).",
+    "illuminate/console": "Required to use the make:popo command, which extends Illuminate\\Console\\GeneratorCommand (^9.0|^10.0|^11.0|^12.0)."
   },
   "extra": {
     "laravel": {
