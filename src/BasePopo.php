@@ -28,7 +28,7 @@ abstract class BasePopo extends Data implements JsonSerializable, Arrayable, Sna
         $properties = [];
 
         foreach ($this->toArray() as $property => $value) {
-            $properties[Str::snake($property)] = $value;
+            $properties[Str::snake((string) $property)] = $value;
         }
 
         return $properties;
