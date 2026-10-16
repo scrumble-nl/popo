@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Scrumble\Popo;
 
 use JsonSerializable;
+use Illuminate\Support\Str;
 use Spatie\LaravelData\Data;
 use Scrumble\Popo\Traits\ToSnakeCaseArray;
 use Illuminate\Contracts\Support\Arrayable;
@@ -27,7 +28,7 @@ abstract class BasePopo extends Data implements JsonSerializable, Arrayable, Sna
         $properties = [];
 
         foreach ($this->toArray() as $property => $value) {
-            $properties[snake_case($property)] = $value;
+            $properties[Str::snake($property)] = $value;
         }
 
         return $properties;

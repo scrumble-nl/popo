@@ -6,6 +6,7 @@ namespace Scrumble\Popo\Traits;
 
 use BackedEnum;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 
 trait ToSnakeCaseArray
 {
@@ -18,7 +19,7 @@ trait ToSnakeCaseArray
         $result = [];
 
         foreach ($array as $key => $value) {
-            $result[snake_case($key)] = $this->parseToArrayValue($value);
+            $result[Str::snake((string) $key)] = $this->parseToArrayValue($value);
         }
 
         return $result;
@@ -31,7 +32,7 @@ trait ToSnakeCaseArray
     private function parseToArrayValue(mixed $value): mixed
     {
         if (is_array($value)) {
-            return Arr::mapWithKeys($value, fn ($item, $key) => [snake_case($key) => $this->parseToArrayValue($item)]);
+            return Arr::mapWithKeys($value, fn ($item, $key) => [Str::snake((string) $key) => $this->parseToArrayValue($item)]);
         }
 
         return $value;
